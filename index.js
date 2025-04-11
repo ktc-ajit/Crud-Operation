@@ -26,6 +26,24 @@ regForm.onsubmit = (e) => {
   getRegData();
 };
 
+const calculateAge = (dob) => {
+  let birthDate = new Date(dob);
+  let today = new Date();
+  let age = today.getFullYear() - birthDate.getFullYear();
+  let m = today.getMonth() - birthDate.getMonth();
+
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+
+  return age;
+};
+allInput[2].addEventListener("change", () => {
+  if (allInput[2].value) {
+    allInput[4].value = calculateAge(allInput[2].value);
+  }
+});
+
 const getRegData = () => {
   regList.innerHTML = "";
   allRegData.forEach((data, index) => {
@@ -75,7 +93,8 @@ const action = () => {
       allInput[1].value = data.email;
       allInput[2].value = data.dob;
       allInput[3].value = data.mobile;
-      allInput[4].value = data.age;
+      allInput[4].value = data.age; 
+      allInput[4].readOnly = true;
       allBtn[0].style.display = "inline-block";
       allBtn[0].disabled = false;
       allBtn[1].style.display = "none";
